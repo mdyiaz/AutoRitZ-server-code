@@ -39,6 +39,7 @@ async function run (){
 
             const luxuryBookingsCollection =  client.db('assignment-12').collection('luxuryBookings')
 
+            const microBusBookingsCollection = client.db('assignment-12').collection('microbusBookings')
 
 
 
@@ -84,6 +85,17 @@ async function run (){
                 const booking = req.body;
                 console.log(booking);
                 const result = await luxuryBookingsCollection.insertOne(booking);
+                res.send(result);
+            })
+
+
+
+
+
+            app.post('/microbusbookings', async(req, res) => {
+                const booking = req.body;
+                console.log(booking);
+                const result = await microBusBookingsCollection.insertOne(booking);
                 res.send(result);
             })
 
