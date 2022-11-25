@@ -29,8 +29,16 @@ async function run (){
         try{
 
             const electricCarCollection = client.db('assignment-12').collection('electricCarList')
+
             const luxuryCarCollection = client.db('assignment-12').collection('luxuryCarList')
+
             const microBUsCarCollection = client.db('assignment-12').collection('microBusCarList')
+
+
+            const  electricBookingsCollection = client.db('assignment-12').collection('electricBookings')
+
+            const luxuryBookingsCollection =  client.db('assignment-12').collection('luxuryBookings')
+
 
 
 
@@ -56,6 +64,36 @@ async function run (){
                 const options = await microBUsCarCollection.find(query).toArray();
                 res.send(options);
             })
+
+
+
+
+
+            app.post('/electricbookings', async(req, res) => {
+                const booking = req.body;
+                console.log(booking);
+                const result = await electricBookingsCollection.insertOne(booking);
+                res.send(result);
+            })
+
+
+
+
+
+            app.post('/luxurybookings', async(req, res) => {
+                const booking = req.body;
+                console.log(booking);
+                const result = await luxuryBookingsCollection.insertOne(booking);
+                res.send(result);
+            })
+
+
+
+
+
+
+
+
 
         }
 
