@@ -128,6 +128,18 @@ async function run (){
 
 
 
+
+
+            app.get('/microbusbookings', async(req, res) => {
+                const email = req.query.email;
+                
+                const query = { email: email};
+                const bookings = await microBusBookingsCollection.find(query).toArray();
+                res.send(bookings);
+            })
+
+
+
             // getting data for buyers myOrders_______________________________________________________________________________
 
 
