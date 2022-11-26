@@ -148,7 +148,7 @@ async function run (){
 
 
 
-            // getting data for buyers myOrders_________________________________________________________________________
+            // getting data for buyers myOrders START_________________________________________________________________________
 
             app.get('/electricbookings', verifyJWT, async(req, res) => {
                 const email = req.query.email;
@@ -202,13 +202,13 @@ async function run (){
 
 
 
-            // getting data for buyers myOrders_______________________________________________________________________________
+            // getting data for buyers myOrders END _______________________________________________________________________________
 
 
 
 
 
-            // post users data_____________________________________________________________________________________________
+            // post users data START _____________________________________________________________________________________________
 
 
                 app.post('/users', async(req, res) => {
@@ -217,23 +217,33 @@ async function run (){
                     res.send(result);
                 })
 
-            // post users data_____________________________________________________________________________________________
+            // post users data END _____________________________________________________________________________________________
 
 
 
 
 
 
-//  collecting users data___________________________________________________________           
+//  collecting users data START___________________________________________________________           
 
         app.get('/users', async(req, res) =>{
-            const query = {};
+            const query = {userType:'Seller'};
             const users = await usersCollection.find(query).toArray();
             res.send(users);
 
-        })        
+        })      
+        
+        
 
-//  collecting users data___________________________________________________________           
+
+        app.get('/buyers', async(req, res) =>{
+            const query = {userType:'Buyer'};
+            const users = await usersCollection.find(query).toArray();
+            res.send(users);
+
+        })      
+
+//  collecting users data END___________________________________________________________           
 
 
 
