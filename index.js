@@ -150,13 +150,17 @@ async function run (){
 
             // getting data for buyers myOrders START_________________________________________________________________________
 
-            app.get('/electricbookings', verifyJWT, async(req, res) => {
+            app.get('/electricbookings', async(req, res) => {
                 const email = req.query.email;
 
-                const decodedEmail = req.query.email;
-                if(email !== decodedEmail){
-                    return res.status(403).send({message: 'forbidden access'});
-                }
+
+
+                // const decodedEmail = req.query.email;
+                // if(email !== decodedEmail){
+                //     return res.status(403).send({message: 'forbidden access'});
+                // }
+
+
 
                 const query = { email: email};
                 const bookings = await electricBookingsCollection.find(query).toArray();
@@ -166,14 +170,14 @@ async function run (){
 
 
 
-            app.get('/luxurybookings', verifyJWT, async(req, res) => {
+            app.get('/luxurybookings',  async(req, res) => {
                 const email = req.query.email;
                 
 
-                const decodedEmail = req.query.email;
-                if(email !== decodedEmail){
-                    return res.status(403).send({message: 'forbidden access'});
-                }
+                // const decodedEmail = req.query.email;
+                // if(email !== decodedEmail){
+                //     return res.status(403).send({message: 'forbidden access'});
+                // }
 
 
                 const query = { email: email};
@@ -185,14 +189,14 @@ async function run (){
 
 
 
-            app.get('/microbusbookings', verifyJWT, async(req, res) => {
+            app.get('/microbusbookings', async(req, res) => {
                 const email = req.query.email;
                 
 
-                 const decodedEmail = req.query.email;
-                if(email !== decodedEmail){
-                    return res.status(403).send({message: 'forbidden access'});
-                }
+                //  const decodedEmail = req.query.email;
+                // if(email !== decodedEmail){
+                //     return res.status(403).send({message: 'forbidden access'});
+                // }
 
 
                 const query = { email: email};
@@ -250,7 +254,7 @@ async function run (){
 
 
 
-// jwt Token________________________________________________________________________________________
+// jwt Token START ________________________________________________________________________________________
 
 
             app.get('/jwt', async(req, res) => {
@@ -266,7 +270,30 @@ async function run (){
             }) 
 
 
-// jwt Token________________________________________________________________________________________
+// jwt Token END ________________________________________________________________________________________
+
+
+
+
+
+
+
+
+
+
+// get Admin START_______________________________________________________________________________________
+
+        app.get('/usertype/:email', async (req, res) =>{
+            const email = req.params.email;
+            const query = { email: email};
+            const user = await usersCollection.findOne(query);
+            res.send({ isAdmin: user?.userType === "Admin" });
+        })
+
+// / get Admin END_______________________________________________________________________________________
+
+
+
 
 
 
