@@ -43,6 +43,14 @@ async function run (){
 
 
 
+            const usersCollection = client.db('assignment-12').collection('users')
+
+
+
+
+
+// getting data for categories section__________________________________________________________________________________________________________________
+
             app.get('/electriccarlist', async(req, res) =>{
                 const query = {};
                 const options = await electricCarCollection.find(query).toArray();
@@ -65,6 +73,8 @@ async function run (){
                 const options = await microBUsCarCollection.find(query).toArray();
                 res.send(options);
             })
+
+// getting data for categories section__________________________________________________________________________________________________________________
 
 
 
@@ -143,6 +153,19 @@ async function run (){
             // getting data for buyers myOrders_______________________________________________________________________________
 
 
+
+
+
+            // post users data_____________________________________________________________________________________________
+
+
+                app.post('/users', async(req, res) => {
+                    const user = req.body
+                    const result = await usersCollection.insertOne(user);
+                    res.send(result);
+                })
+
+            // post users data_____________________________________________________________________________________________
 
 
         }
