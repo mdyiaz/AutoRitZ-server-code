@@ -26,6 +26,38 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 
 
+
+// verifyJWT____________________________________________________________________
+
+
+
+    function verifyJWT (req, res, next){
+
+        const authHeader = req.headers.authorization;
+        if(!authHeader){
+            return res.status(401).send('unauthorized access');
+        }
+
+        const token = authHeader.split(' ')[1];
+
+        jwt.verify(token, process.env.ACCESS_TOKEN, function(err, decoded){
+            if(err){
+                return res.status(403).send({message: 'forbidden access'})
+            }
+            req.decoded = decoded = decoded;
+            next();
+        })
+
+    }
+
+
+// verifyJWT_____________________________________________________________________________
+
+
+
+
+
+
 async function run (){
         try{
 
@@ -118,9 +150,14 @@ async function run (){
 
             // getting data for buyers myOrders_________________________________________________________________________
 
-            app.get('/electricbookings', async(req, res) => {
+            app.get('/electricbookings', verifyJWT, async(req, res) => {
                 const email = req.query.email;
-                
+
+                const decodedEmail = req.query.email;
+                if(email !== decodedEmail){
+                    return res.status(403).send({message: 'forbidden access'});
+                }
+
                 const query = { email: email};
                 const bookings = await electricBookingsCollection.find(query).toArray();
                 res.send(bookings);
@@ -129,9 +166,16 @@ async function run (){
 
 
 
-            app.get('/luxurybookings', async(req, res) => {
+            app.get('/luxurybookings', verifyJWT, async(req, res) => {
                 const email = req.query.email;
                 
+
+                const decodedEmail = req.query.email;
+                if(email !== decodedEmail){
+                    return res.status(403).send({message: 'forbidden access'});
+                }
+
+
                 const query = { email: email};
                 const bookings = await luxuryBookingsCollection.find(query).toArray();
                 res.send(bookings);
@@ -141,9 +185,16 @@ async function run (){
 
 
 
-            app.get('/microbusbookings', async(req, res) => {
+            app.get('/microbusbookings', verifyJWT, async(req, res) => {
                 const email = req.query.email;
                 
+
+                 const decodedEmail = req.query.email;
+                if(email !== decodedEmail){
+                    return res.status(403).send({message: 'forbidden access'});
+                }
+
+
                 const query = { email: email};
                 const bookings = await microBusBookingsCollection.find(query).toArray();
                 res.send(bookings);
@@ -167,6 +218,26 @@ async function run (){
                 })
 
             // post users data_____________________________________________________________________________________________
+
+
+
+
+
+
+//  collecting users data___________________________________________________________           
+
+        app.get('/users', async(req, res) =>{
+            const query = {};
+            const users = await usersCollection.find(query).toArray();
+            res.send(users);
+
+        })        
+
+//  collecting users data___________________________________________________________           
+
+
+
+
 
 
 // jwt Token________________________________________________________________________________________
