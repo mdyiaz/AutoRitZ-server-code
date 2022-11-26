@@ -69,7 +69,7 @@ async function run (){
 
 
 
-
+// Posting data from Modal ________________________________________________________________________________________________________
             app.post('/electricbookings', async(req, res) => {
                 const booking = req.body;
                 console.log(booking);
@@ -100,9 +100,35 @@ async function run (){
             })
 
 
+// Posting data from Modal ________________________________________________________________________________________________________
 
 
 
+
+            // getting data for buyers myOrders_________________________________________________________________________
+
+            app.get('/electricbookings', async(req, res) => {
+                const email = req.query.email;
+                
+                const query = { email: email};
+                const bookings = await electricBookingsCollection.find(query).toArray();
+                res.send(bookings);
+            })
+
+
+
+
+            app.get('/luxurybookings', async(req, res) => {
+                const email = req.query.email;
+                
+                const query = { email: email};
+                const bookings = await luxuryBookingsCollection.find(query).toArray();
+                res.send(bookings);
+            })
+
+
+
+            // getting data for buyers myOrders_______________________________________________________________________________
 
 
 
