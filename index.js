@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const port = process.env.PORT || 5000;
@@ -332,6 +332,48 @@ async function run (){
 
 
 
+
+
+// Delete AddProduct START____________________________________________________________________________________
+
+        app.delete('/addproducts/:id', async(req, res) => {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) };
+            const result = await addProductsCollection.deleteOne(filter);
+            res.send(result);
+        })
+
+// Delete AddProduct END____________________________________________________________________________________
+
+
+
+
+
+
+
+
+// DElete seller and buyer by Admin ____START_______________________________________________________________________
+
+
+        app.delete('/users/:id', async(req, res) =>{
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) };
+            const result = await usersCollection.deleteOne(filter);
+            res.send(result);
+        })
+
+
+
+
+        app.delete('/buyers/:id', async(req, res) =>{
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) };
+            const result = await usersCollection.deleteOne(filter);
+            res.send(result);
+        })
+
+
+// DElete seller and buyer by Admin ____START_______________________________________________________________________
 
 
 
