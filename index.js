@@ -79,6 +79,9 @@ async function run (){
             const usersCollection = client.db('assignment-12').collection('users')
 
 
+            const addProductsCollection = client.db('assignment-12').collection('addProduct')
+
+
 
 
 
@@ -150,17 +153,13 @@ async function run (){
 
             // getting data for buyers myOrders START_________________________________________________________________________
 
-            app.get('/electricbookings', async(req, res) => {
+            app.get('/electricbookings', verifyJWT, async(req, res) => {
                 const email = req.query.email;
 
-
-
-                // const decodedEmail = req.query.email;
-                // if(email !== decodedEmail){
-                //     return res.status(403).send({message: 'forbidden access'});
-                // }
-
-
+                const decodedEmail = req.query.email;
+                if(email !== decodedEmail){
+                    return res.status(403).send({message: 'forbidden access'});
+                }
 
                 const query = { email: email};
                 const bookings = await electricBookingsCollection.find(query).toArray();
@@ -170,14 +169,14 @@ async function run (){
 
 
 
-            app.get('/luxurybookings',  async(req, res) => {
+            app.get('/luxurybookings', verifyJWT, async(req, res) => {
                 const email = req.query.email;
                 
 
-                // const decodedEmail = req.query.email;
-                // if(email !== decodedEmail){
-                //     return res.status(403).send({message: 'forbidden access'});
-                // }
+                const decodedEmail = req.query.email;
+                if(email !== decodedEmail){
+                    return res.status(403).send({message: 'forbidden access'});
+                }
 
 
                 const query = { email: email};
@@ -189,14 +188,14 @@ async function run (){
 
 
 
-            app.get('/microbusbookings', async(req, res) => {
+            app.get('/microbusbookings', verifyJWT, async(req, res) => {
                 const email = req.query.email;
                 
 
-                //  const decodedEmail = req.query.email;
-                // if(email !== decodedEmail){
-                //     return res.status(403).send({message: 'forbidden access'});
-                // }
+                 const decodedEmail = req.query.email;
+                if(email !== decodedEmail){
+                    return res.status(403).send({message: 'forbidden access'});
+                }
 
 
                 const query = { email: email};
@@ -292,6 +291,23 @@ async function run (){
 
 // / get Admin END_______________________________________________________________________________________
 
+
+
+
+
+
+
+// post addProduct START__________________________________________________________________________________
+
+
+        app.post('/addproducts', async(req, res) =>{
+            const addProducts = req.body;
+            const result = await addProductsCollection.insertOne(addProducts);
+            res.send(result);
+        })
+
+
+// post addProduct END__________________________________________________________________________________
 
 
 
