@@ -317,6 +317,23 @@ async function run (){
 
 
 
+// post addProduct START__________________________________________________________________________________
+
+
+        app.get('/addproducts', async(req, res) => {
+            const query = {};
+            const getProducts = await addProductsCollection.find(query).toArray();
+            res.send(getProducts);
+        })
+
+
+// post addProduct END__________________________________________________________________________________
+
+
+
+
+
+
 
 
 
