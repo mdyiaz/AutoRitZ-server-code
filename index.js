@@ -85,6 +85,32 @@ async function run (){
 
 
 
+
+
+// verifyAdmin START_________________________________________________________________
+
+    const verifyAdmin = async (req, res, next) => {
+      
+        const decodeEmail = req.decoded.email;
+        const query = { email: decodeEmail };
+        const user = await usersCollection.findOne(query);
+
+        if(user?.userType !== 'Admin') {
+            return res.status(403).send({message: 'forbidden access'})
+        }
+        next();
+    }
+
+
+ // verifyAdmin START_________________________________________________________________
+
+
+
+
+
+
+
+
 // getting data for categories section__________________________________________________________________________________________________________________
 
             app.get('/electriccarlist', async(req, res) =>{
@@ -220,6 +246,7 @@ async function run (){
                     res.send(result);
                 })
 
+                
             // post users data END _____________________________________________________________________________________________
 
 
@@ -234,7 +261,7 @@ async function run (){
             const users = await usersCollection.find(query).toArray();
             res.send(users);
 
-        })      
+        })       
         
         
 
@@ -284,9 +311,14 @@ async function run (){
 
         app.get('/usertype/:email', async (req, res) =>{
             const email = req.params.email;
+            
             const query = { email: email};
             const user = await usersCollection.findOne(query);
-            res.send({ isAdmin: user?.userType === "Admin" });
+            console.log(user);
+            if(user.userType === 'Admin'){
+                res.send({ isAdmin: "Admin" });
+            }
+           
         })
 
 // / get Admin END_______________________________________________________________________________________
@@ -308,6 +340,94 @@ async function run (){
 
 
 // post addProduct END__________________________________________________________________________________
+
+
+
+
+
+
+
+// getting AddProducts START_______________________________________________________________________________________________
+// app.get('/addproducts/:id', async (req, res) => {
+//     const id = req.params.id;
+//     const query = { _id: ObjectId(id) };
+//     const products = await addProductsCollection.findOne(query);
+//     res.send(products);
+// });
+
+// getting AddProducts START_______________________________________________________________________________________________
+
+
+
+
+
+
+
+// update product advertized___________________________________________________________________________________
+
+
+
+app.put('/addproducts/:id', async(req, res) => {
+    const id = req.params.id;
+    const query = { _id: ObjectId(id)};
+    const options = { upsert: true };
+    const updateDoc = {
+        $set: {
+            advrtized: true,
+        },
+
+    };
+    const result = await addProductsCollection.updateOne(query,updateDoc, options);
+    res.send(result);
+
+});
+
+
+
+// update product advertized___________________________________________________________________________________
+
+
+
+
+
+// get advertized products______________________________________________________________________________________
+
+
+app.get('/advrtized', async(req, res) =>{
+    const query = { advrtized: true};
+    const result = await addProductsCollection.find(query).toArray();
+    res.send(result);
+});
+
+
+// get advertized products______________________________________________________________________________________
+
+
+
+
+
+
+
+// verify seller by admin_______________________________________________________________________
+
+
+app.put('/users/:id', async(req, res) => {
+    const id = req.params.id;
+    const query = { _id: ObjectId(id)};
+    const options = { upsert: true };
+    const updateDoc = {
+        $set: {
+            
+            verify: true,
+        },
+
+    };
+    const result = await usersCollection.updateOne(query,updateDoc, options);
+    res.send(result);
+
+});
+
+// verify seller by admin_______________________________________________________________________
 
 
 
