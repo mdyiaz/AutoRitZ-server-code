@@ -329,6 +329,54 @@ async function run (){
 
 
 
+
+
+
+// check seller ______________________________________START
+
+app.get('/usertype/seller/:email', async (req, res) =>{
+    const email = req.params.email;
+    
+    const query = { email: email};
+    const user = await usersCollection.findOne(query);
+    console.log(user);
+    if(user.userType === 'Seller'){
+        res.send({ isSeller: "Seller" });
+    }
+   
+})
+
+// check seller _________________________________________________END
+
+
+
+
+
+
+
+
+// check seller ______________________________________START
+
+app.get('/usertype/buyer/:email', async (req, res) =>{
+    const email = req.params.email;
+    
+    const query = { email: email};
+    const user = await usersCollection.findOne(query);
+    console.log(user);
+    if(user.userType === 'Buyer'){
+        res.send({ isBuyer: "Buyer" });
+    }
+   
+})
+
+// check seller _________________________________________________END
+
+
+
+
+
+
+
 // post addProduct START__________________________________________________________________________________
 
 
