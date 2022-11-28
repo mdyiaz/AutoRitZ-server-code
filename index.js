@@ -256,7 +256,7 @@ async function run (){
 
 //  collecting users data START___________________________________________________________           
 
-        app.get('/users', async(req, res) =>{
+        app.get('/sellers', async(req, res) =>{
             const query = {userType:'Seller'};
             const users = await usersCollection.find(query).toArray();
             res.send(users);
